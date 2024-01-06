@@ -13,7 +13,6 @@ public class TitleScreenManager : MonoBehaviour
     void Start()
     {
         SetName();
-        DisplayName();
     }
 
     public void SetName()

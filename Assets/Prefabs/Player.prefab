@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2073058164454628946}
   - component: {fileID: 727062094521175011}
   - component: {fileID: 5346530391486193162}
-  - component: {fileID: -2289917468727928691}
+  - component: {fileID: -3381398181211843262}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 8219749784528609095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.36, y: -3.58, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2289917468727928691
+--- !u!114 &-3381398181211843262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,6 +115,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8219749784528609095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab9dc9b40344c4240bb36ea6d98827a1, type: 3}
+  m_Script: {fileID: 11500000, guid: d37a5fd501201c24b88184f11a06a465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: Player
+  damage: 20
+  maxHealth: 100
+  curHealth: 100
