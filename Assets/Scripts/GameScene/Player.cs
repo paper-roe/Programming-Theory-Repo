@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerHealthText;
     [SerializeField] TextMeshProUGUI playerDamageText;
     [SerializeField] TextMeshProUGUI playerNameText;
-    private int hitPoints;
+    public int health { get; private set; }
     private int damage;
     private string playerName;
 
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     private void SetPlayerInfo()
     {
-        hitPoints = 100;
+        health = 100;
         damage = 5;
         if (TitleScreenManager.playerName == null)
         {
@@ -34,8 +34,29 @@ public class Player : MonoBehaviour
 
     private void DisplayPlayerInfo()
     {
-        playerHealthText.text = "HP " + hitPoints.ToString() + "/100";
+        playerHealthText.text = "HP " + health.ToString() + "/100";
         playerDamageText.text = "Damage: " + damage.ToString() + " per hit";
         playerNameText.text = playerName;
+    }
+
+    public void ReceiveDamage(int damageReceived)
+    {
+        health -= damageReceived;
+        if (health <= 0)
+        {
+            health = 0;
+            PlayerDead();
+        }
+        UpdateHealth();
+    }
+
+    private void UpdateHealth()
+    {
+        playerHealthText.text = "HP " + health.ToString() + "/100";
+    }
+
+    private void PlayerDead()
+    {
+        Debug.Log("Player is dead");
     }
 }
