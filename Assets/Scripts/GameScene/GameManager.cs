@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] BattleInfo enemyBattleInfo;
 
     string enemyUnitName;
+    // These variables used below to display their values on the Fight Button. Workaround for lack of knowledge.
     int enemyUnitDamage; // This is bad because damage won't update if I add dmg mods later..
     int playerDamage; // This is bad because damage won't update if I add dmg mods later..
 
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour
     // (can make the list, but unsure about code outside of this method)
     void ChooseRandomEnemy()
     {
-        int randomEnemy = Random.Range(1, 2);
+        int randomEnemy = Random.Range(0, 2);
 
         if (randomEnemy == 0)
         {
