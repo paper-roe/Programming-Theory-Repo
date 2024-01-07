@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     {
         GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
         playerUnit = playerGO.GetComponent<PlayerUnit>();
-        Debug.Log(playerUnit.unitName);
         playerBattleInfo.DisplayBattleInfo(playerUnit);
 
         ChooseRandomEnemy();
@@ -70,7 +69,6 @@ public class GameManager : MonoBehaviour
         {
             GameObject enemyGO = Instantiate(enemySkeletoPrefab, enemySpawn);
             enemySkeletonUnit = enemyGO.GetComponent<SkeletonUnit>();
-            Debug.Log(enemySkeletonUnit.unitName);
             enemyBattleInfo.DisplayBattleInfo(enemySkeletonUnit);
             
             enemyUnitName = enemySkeletonUnit.unitName;
