@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6752250139709108753}
   - component: {fileID: 2798170471274219969}
   - component: {fileID: 1908192868111145961}
-  - component: {fileID: -6454498269769104566}
+  - component: {fileID: 1955160144273088013}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6454498269769104566
+--- !u!114 &1955160144273088013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8164358436429434256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37a5fd501201c24b88184f11a06a465, type: 3}
+  m_Script: {fileID: 11500000, guid: 35fb6c2b0e4eca44ba4feee0a33969c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Wolf
