@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class BattleInfo : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] TextMeshProUGUI damageText;
+    [SerializeField] TextMeshProUGUI unitNameText;
+    [SerializeField] TextMeshProUGUI unitDamageText;
+    [SerializeField] TextMeshProUGUI unitHealthText;
 
     public void DisplayBattleInfo(Unit unit)
     {
-        healthText.text = "HP " + unit.curHealth.ToString() + "/100";
-        damageText.text = "Damage: " + unit.damage.ToString() + " per hit";
+        unitNameText.text = unit.unitName;
+        unitDamageText.text = "Damage per hit: " + unit.damage;
+        unitHealthText.text = "HP " + unit.curHealth + "/" + unit.maxHealth;
     }
 }

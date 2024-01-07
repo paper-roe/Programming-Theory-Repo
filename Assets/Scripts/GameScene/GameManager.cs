@@ -7,9 +7,7 @@ public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI enemyNameText;
-    [SerializeField] TextMeshProUGUI playerNameText;
-    [SerializeField] TextMeshProUGUI fightButtonText;
+    public BattleState state;
 
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject enemyPrefab;
@@ -20,10 +18,8 @@ public class GameManager : MonoBehaviour
     Unit playerUnit;
     Unit enemyUnit;
 
-    public BattleInfo playerInfo;
-    public BattleInfo enemyInfo;
-
-    public BattleState state;
+    [SerializeField] BattleInfo playerBattleInfo;
+    [SerializeField] BattleInfo enemyBattleInfo;
 
     void Start()
     {
@@ -35,14 +31,10 @@ public class GameManager : MonoBehaviour
     {
         GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
         playerUnit = playerGO.GetComponent<Unit>();
+        playerBattleInfo.DisplayBattleInfo(playerUnit);
 
         GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
         enemyUnit = enemyGO.GetComponent<Unit>();
-
-        enemyNameText.text = enemyUnit.unitName;
-        playerNameText.text = playerUnit.unitName;
-
-        playerInfo.DisplayBattleInfo(playerUnit);
-        enemyInfo.DisplayBattleInfo(enemyUnit);
+        enemyBattleInfo.DisplayBattleInfo(enemyUnit);
     }
 }
