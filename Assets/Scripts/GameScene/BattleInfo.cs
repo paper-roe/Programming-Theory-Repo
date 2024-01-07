@@ -9,9 +9,9 @@ public class BattleInfo : MonoBehaviour
     [SerializeField] TextMeshProUGUI unitDamageText;
     [SerializeField] TextMeshProUGUI unitHealthText;
 
-    public void DisplayBattleInfo(Unit unit)
+    public void DisplayBattleInfo<T>(T unit) where T : Unit
     {
-        unitNameText.text = unit.unitName;
+        unitNameText.text = GetComponentInChildren<T>().unitName;
         unitDamageText.text = "Damage per hit: " + unit.damage;
         UpdateHealth(unit.curHealth, unit.maxHealth);
     }

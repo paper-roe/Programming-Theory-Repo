@@ -13,17 +13,24 @@ public class GameManager : MonoBehaviour
     public BattleState state;
 
     [SerializeField] TextMeshProUGUI fightButtonText;
+
     [SerializeField] GameObject playerPrefab;
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject enemyWolfPrefab;
+    [SerializeField] GameObject enemySkeletoPrefab;
 
     [SerializeField] Transform playerSpawn;
     [SerializeField] Transform enemySpawn;
 
-    Unit playerUnit;
+    PlayerUnit playerUnit;
     WolfUnit enemyWolfUnit;
+    SkeletonUnit enemySkeletonUnit;
 
     [SerializeField] BattleInfo playerBattleInfo;
     [SerializeField] BattleInfo enemyBattleInfo;
+
+    string enemyUnitName;
+    int enemyUnitDamage; // This is bad because damage won't update if I add dmg mods later..
+    int playerDamage; // This is bad because damage won't update if I add dmg mods later..
 
     void Start()
     {
@@ -34,15 +41,42 @@ public class GameManager : MonoBehaviour
     void SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
-        playerUnit = playerGO.GetComponent<Unit>();
+        playerUnit = playerGO.GetComponent<PlayerUnit>();
+        Debug.Log(playerUnit.unitName);
         playerBattleInfo.DisplayBattleInfo(playerUnit);
 
-        GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
-        enemyWolfUnit = enemyGO.GetComponent<WolfUnit>();
-        enemyBattleInfo.DisplayBattleInfo(enemyWolfUnit);
+        ChooseRandomEnemy();
 
         state = BattleState.PLAYERTURN;
-        fightButtonText.text = "Attack enemy for " + playerUnit.damage + " damage";
+        fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
+    }
+
+    // I don't know proper way to do it via list/array
+    // (can make the list, but unsure about code outside of this method)
+    void ChooseRandomEnemy()
+    {
+        int randomEnemy = Random.Range(1, 2);
+
+        if (randomEnemy == 0)
+        {
+            GameObject enemyGO = Instantiate(enemyWolfPrefab, enemySpawn);
+            enemyWolfUnit = enemyGO.GetComponent<WolfUnit>();
+            enemyBattleInfo.DisplayBattleInfo(enemyWolfUnit);
+            enemyUnitName = enemyWolfUnit.unitName;
+            enemyUnitDamage = enemyWolfUnit.damage;
+            playerDamage = playerUnit.damage;
+        }
+        else
+        {
+            GameObject enemyGO = Instantiate(enemySkeletoPrefab, enemySpawn);
+            enemySkeletonUnit = enemyGO.GetComponent<SkeletonUnit>();
+            Debug.Log(enemySkeletonUnit.unitName);
+            enemyBattleInfo.DisplayBattleInfo(enemySkeletonUnit);
+            
+            enemyUnitName = enemySkeletonUnit.unitName;
+            enemyUnitDamage = enemySkeletonUnit.damage;
+            playerDamage = Mathf.RoundToInt(playerUnit.damage * enemySkeletonUnit.damageTakenMultiplier);
+        }        
     }
 
     public void ProgressFight()
@@ -63,11 +97,11 @@ public class GameManager : MonoBehaviour
 
     void PlayerTurn()
     {
-        fightButtonText.text = "Attack enemy for " + playerUnit.damage + " damage";
+        fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
 
         state = BattleState.ENEMYTURN;
-        bool isDead = enemyWolfUnit.TakeDamage(playerUnit.damage);
-        enemyBattleInfo.UpdateHealth(enemyWolfUnit.curHealth, enemyWolfUnit.maxHealth);
+        bool isDead = EnemyTakeDamage();
+        UpdateEnemyHealth();
 
         if (isDead)
         {
@@ -76,13 +110,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            fightButtonText.text = enemyWolfUnit.unitName + " attacking for " + enemyWolfUnit.damage + " damage";
+            fightButtonText.text = enemyUnitName + " attacking for " + enemyUnitDamage + " damage";
         }
     }
 
     void EnemyTurn()
     {
-        bool isDead = playerUnit.TakeDamage(enemyWolfUnit.damage);
+        bool isDead = playerUnit.TakeDamage(enemyUnitDamage);
         playerBattleInfo.UpdateHealth(playerUnit.curHealth, playerUnit.maxHealth);
 
         if (isDead)
@@ -93,7 +127,7 @@ public class GameManager : MonoBehaviour
         else
         {
             state = BattleState.PLAYERTURN;
-            fightButtonText.text = "Attack " + enemyWolfUnit.unitName + " for " + playerUnit.damage + " damage";
+            fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
         }
     }
 
@@ -106,6 +140,30 @@ public class GameManager : MonoBehaviour
         else if (state == BattleState.LOST)
         {
             fightButtonText.text = "You lost >:(  \nReset Game";
+        }
+    }
+
+    bool EnemyTakeDamage()
+    {
+        if (enemyUnitName == "Wolf")
+        {
+            return enemyWolfUnit.TakeDamage(playerDamage);
+        }
+        else
+        {
+            return enemySkeletonUnit.TakeDamage(playerDamage);
+        }
+    }
+
+    void UpdateEnemyHealth()
+    {
+        if (enemyUnitName == "Wolf")
+        {
+            enemyBattleInfo.UpdateHealth(enemyWolfUnit.curHealth, enemyWolfUnit.maxHealth);
+        }
+        else
+        {
+            enemyBattleInfo.UpdateHealth(enemySkeletonUnit.curHealth, enemySkeletonUnit.maxHealth);
         }
     }
 }

@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class WolfUnit : Unit
 {
-    [SerializeField] GameObject hyperArmor;
+    GameObject hyperArmor;
     Vector3 offScreen = new Vector3(0, 500);
 
-    private void Start()
+    private string m_unitName;
+    public new string unitName
     {
-        hyperArmor = GameObject.Find("Wolf Hyper Armor");
+        get { return m_unitName; }
+        private set { } 
+    }
+
+    private void Awake()
+    {
+        m_unitName = "Wolf";
+        hyperArmor = GameObject.Find("Wolf Hyper Armor Message");
     }
 
     IEnumerator DisplayHyperArmorMessage()
@@ -21,10 +29,10 @@ public class WolfUnit : Unit
 
     public bool AttemptHyperArmor()
     {
-        int hyperArmorNumber = 3;
-        int hyperArmorRoll = 1 + (Mathf.RoundToInt(Random.Range(0, hyperArmorNumber)));
+        int hyperArmorActivateNumber = 3;
+        int hyperArmorRoll = 1 + (Mathf.RoundToInt(Random.Range(0, hyperArmorActivateNumber)));
 
-        if (hyperArmorRoll == hyperArmorNumber)
+        if (hyperArmorRoll == hyperArmorActivateNumber)
         {
             StartCoroutine(DisplayHyperArmorMessage());
             return true;

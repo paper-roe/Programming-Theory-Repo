@@ -587,7 +587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deal 20 Damage To Player
+  m_text: Fight Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -863,7 +863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683160587}
   m_Layer: 5
-  m_Name: Wolf Hyper Armor
+  m_Name: Wolf Hyper Armor Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1184,7 +1184,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.18, y: 3.62, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1394,7 +1394,8 @@ MonoBehaviour:
   state: 0
   fightButtonText: {fileID: 198773131}
   playerPrefab: {fileID: 8219749784528609095, guid: cc0455521725c9f4e896b620c1b82fd5, type: 3}
-  enemyPrefab: {fileID: 8164358436429434256, guid: 02daac202a6f46644bd6c0ad4d728bb7, type: 3}
+  enemyWolfPrefab: {fileID: 8164358436429434256, guid: 02daac202a6f46644bd6c0ad4d728bb7, type: 3}
+  enemySkeletoPrefab: {fileID: 5884983958543945205, guid: 884ec3315c6cd674e935d0fc941d6cfa, type: 3}
   playerSpawn: {fileID: 1432396116}
   enemySpawn: {fileID: 1072955574}
   playerBattleInfo: {fileID: 1284691552}
@@ -1669,7 +1670,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 60}
+  m_SizeDelta: {x: 200, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1687392248
 MonoBehaviour:
