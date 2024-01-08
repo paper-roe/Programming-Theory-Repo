@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class WolfUnit : Unit
 {
-    GameObject hyperArmor;
-    Vector3 offScreen = new Vector3(-5f, 2);
-    Vector3 onScreen = new Vector3(-5f, -6f);
+    private GameObject hyperArmorMessage;
+    private Vector3 offScreen = new Vector3(-5f, 2);
+    private Vector3 onScreen = new Vector3(-5f, -6f);
 
     private void Awake()
-    {        
-        hyperArmor = GameObject.Find("Wolf Hyper Armor Message");
-        hyperArmor.transform.localPosition = offScreen;
+    {
+        hyperArmorMessage = GameObject.Find("Wolf Hyper Armor Message");
+        hyperArmorMessage.transform.localPosition = offScreen;
     }
 
     IEnumerator DisplayHyperArmorMessage()
     {
-        hyperArmor.transform.localPosition = onScreen;
+        hyperArmorMessage.transform.localPosition = onScreen;
         yield return new WaitForSeconds(3f);
-        hyperArmor.transform.localPosition = offScreen;
+        hyperArmorMessage.transform.localPosition = offScreen;
     }
 
     public bool AttemptHyperArmor()

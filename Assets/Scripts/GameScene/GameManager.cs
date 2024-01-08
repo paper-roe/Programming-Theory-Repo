@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void ChooseRandomEnemy()
     {
-        Unit enemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
+        Unit enemy = enemyPrefabs[Random.Range(1, enemyPrefabs.Count)];
 
         enemyUnit = Instantiate(enemy, enemySpawn);
         enemyBattleInfo.DisplayBattleInfo(enemyUnit);

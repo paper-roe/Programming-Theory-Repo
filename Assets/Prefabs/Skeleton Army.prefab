@@ -364,6 +364,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Skeleton Army
   damageTakenMultiplier: 1.5
-  damage: 20
+  damage: 15
   maxHealth: 100
   curHealth: 100
