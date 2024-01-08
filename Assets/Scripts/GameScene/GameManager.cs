@@ -9,24 +9,28 @@ using UnityEngine.SceneManagement;
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
 public class GameManager : MonoBehaviour
-{
+{  
+    [SerializeField] private TextMeshProUGUI fightButtonText;
+
+    [Header("Unit Prefabs")]
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject enemyWolfPrefab;
+    [SerializeField] private GameObject enemySkeletoPrefab;
+
+    [Header("Spawn Points")]
+    [SerializeField] private Transform playerSpawn;
+    [SerializeField] private Transform enemySpawn;
+
+    [Header("UI")]
+    [SerializeField] private BattleInfo playerBattleInfo;
+    [SerializeField] private BattleInfo enemyBattleInfo;
+
+    [Header("Batte State")]
     public BattleState state;
 
-    [SerializeField] TextMeshProUGUI fightButtonText;
-
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] GameObject enemyWolfPrefab;
-    [SerializeField] GameObject enemySkeletoPrefab;
-
-    [SerializeField] Transform playerSpawn;
-    [SerializeField] Transform enemySpawn;
-
-    PlayerUnit playerUnit;
-    WolfUnit enemyWolfUnit;
-    SkeletonUnit enemySkeletonUnit;
-
-    [SerializeField] BattleInfo playerBattleInfo;
-    [SerializeField] BattleInfo enemyBattleInfo;
+    private PlayerUnit playerUnit;
+    private WolfUnit enemyWolfUnit;
+    private SkeletonUnit enemySkeletonUnit;
 
     string enemyUnitName;
     // These variables used below to display their values on the Fight Button. Workaround for lack of knowledge.
