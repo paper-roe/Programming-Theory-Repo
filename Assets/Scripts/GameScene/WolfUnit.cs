@@ -5,26 +5,20 @@ using UnityEngine;
 public class WolfUnit : Unit
 {
     GameObject hyperArmor;
-    Vector3 offScreen = new Vector3(0, 500);
-
-    private string m_unitName;
-    public new string unitName
-    {
-        get { return m_unitName; }
-        private set { } 
-    }
+    Vector3 offScreen = new Vector3(-5f, 2);
+    Vector3 onScreen = new Vector3(-5f, -6f);
 
     private void Awake()
-    {
-        m_unitName = "Wolf";
+    {        
         hyperArmor = GameObject.Find("Wolf Hyper Armor Message");
+        hyperArmor.transform.localPosition = offScreen;
     }
 
     IEnumerator DisplayHyperArmorMessage()
     {
-        hyperArmor.transform.position = Vector3.zero;
+        hyperArmor.transform.localPosition = onScreen;
         yield return new WaitForSeconds(3f);
-        hyperArmor.transform.position = offScreen;
+        hyperArmor.transform.localPosition = offScreen;
     }
 
     public bool AttemptHyperArmor()

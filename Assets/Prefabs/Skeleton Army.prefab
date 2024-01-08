@@ -362,8 +362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96aa401c8a126a54b85b0a510760137c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 
+  unitName: Skeleton Army
+  damageTakenMultiplier: 1.5
   damage: 20
   maxHealth: 100
   curHealth: 100
-  damageTakenMultiplier: 1.5

@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: 
+  damageTakenMultiplier: 1
   damage: 20
   maxHealth: 100
   curHealth: 100

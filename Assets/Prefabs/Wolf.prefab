@@ -118,7 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35fb6c2b0e4eca44ba4feee0a33969c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 
+  unitName: Wolf
+  damageTakenMultiplier: 1
   damage: 15
   maxHealth: 100
   curHealth: 100

@@ -13,10 +13,10 @@ public class BattleInfo : MonoBehaviour
     {
         unitNameText.text = unit.unitName;
         unitDamageText.text = "Damage per hit: " + unit.damage;
-        UpdateHealth(unit.curHealth, unit.maxHealth);
+        UpdateHealthText(unit.curHealth, unit.maxHealth);
     }
 
-    public void UpdateHealth(int curHealth, int maxHealth)
+    public void UpdateHealthText(int curHealth, int maxHealth)
     {
         unitHealthText.text = "HP " + curHealth + "/" + maxHealth;
     }

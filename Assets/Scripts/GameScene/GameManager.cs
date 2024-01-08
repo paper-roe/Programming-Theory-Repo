@@ -9,19 +9,17 @@ using UnityEngine.SceneManagement;
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
 public class GameManager : MonoBehaviour
-{  
-    [SerializeField] private TextMeshProUGUI fightButtonText;
-
+{   
     [Header("Unit Prefabs")]
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject enemyWolfPrefab;
-    [SerializeField] private GameObject enemySkeletoPrefab;
+    [SerializeField] private PlayerUnit playerPrefab;
+    [SerializeField] private List<Unit> enemyPrefabs;
 
     [Header("Spawn Points")]
     [SerializeField] private Transform playerSpawn;
     [SerializeField] private Transform enemySpawn;
 
     [Header("UI")]
+    [SerializeField] private TextMeshProUGUI fightButtonText;
     [SerializeField] private BattleInfo playerBattleInfo;
     [SerializeField] private BattleInfo enemyBattleInfo;
 
@@ -29,57 +27,31 @@ public class GameManager : MonoBehaviour
     public BattleState state;
 
     private PlayerUnit playerUnit;
-    private WolfUnit enemyWolfUnit;
-    private SkeletonUnit enemySkeletonUnit;
+    private Unit enemyUnit;
 
-    string enemyUnitName;
-    // These variables used below to display their values on the Fight Button. Workaround for lack of knowledge.
-    int enemyUnitDamage; // This is bad because damage won't update if I add dmg mods later..
-    int playerDamage; // This is bad because damage won't update if I add dmg mods later..
-
-    void Start()
+    private void Start()
     {
         state = BattleState.START;
         SetupBattle();
     }
 
-    void SetupBattle()
+    private void SetupBattle()
     {
-        GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
-        playerUnit = playerGO.GetComponent<PlayerUnit>();
+        playerUnit = Instantiate(playerPrefab, playerSpawn);
         playerBattleInfo.DisplayBattleInfo(playerUnit);
 
         ChooseRandomEnemy();
 
         state = BattleState.PLAYERTURN;
-        fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
+        SetFightButtonText(playerUnit, enemyUnit);
     }
 
-    // I don't know proper way to do it via list/array
-    // (can make the list, but unsure about code outside of this method)
-    void ChooseRandomEnemy()
+    private void ChooseRandomEnemy()
     {
-        int randomEnemy = Random.Range(0, 2);
+        Unit enemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
 
-        if (randomEnemy == 0)
-        {
-            GameObject enemyGO = Instantiate(enemyWolfPrefab, enemySpawn);
-            enemyWolfUnit = enemyGO.GetComponent<WolfUnit>();
-            enemyBattleInfo.DisplayBattleInfo(enemyWolfUnit);
-            enemyUnitName = enemyWolfUnit.unitName;
-            enemyUnitDamage = enemyWolfUnit.damage;
-            playerDamage = playerUnit.damage;
-        }
-        else
-        {
-            GameObject enemyGO = Instantiate(enemySkeletoPrefab, enemySpawn);
-            enemySkeletonUnit = enemyGO.GetComponent<SkeletonUnit>();
-            enemyBattleInfo.DisplayBattleInfo(enemySkeletonUnit);
-            
-            enemyUnitName = enemySkeletonUnit.unitName;
-            enemyUnitDamage = enemySkeletonUnit.damage;
-            playerDamage = Mathf.RoundToInt(playerUnit.damage * enemySkeletonUnit.damageTakenMultiplier);
-        }        
+        enemyUnit = Instantiate(enemy, enemySpawn);
+        enemyBattleInfo.DisplayBattleInfo(enemyUnit);
     }
 
     public void ProgressFight()
@@ -98,13 +70,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void PlayerTurn()
+    private void PlayerTurn()
     {
-        fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
+        SetFightButtonText(playerUnit, enemyUnit);
 
         state = BattleState.ENEMYTURN;
-        bool isDead = EnemyTakeDamage();
-        UpdateEnemyHealth();
+
+        int damage = CalculateAttackDamage(playerUnit, enemyUnit);
+        bool isDead = enemyUnit.TakeDamage(damage);
+        UpdateEnemyHealthText();
 
         if (isDead)
         {
@@ -113,14 +87,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            fightButtonText.text = enemyUnitName + " attacking for " + enemyUnitDamage + " damage";
+            fightButtonText.text = enemyUnit.unitName + " attacking for " + enemyUnit.damage + " damage";
         }
     }
 
     void EnemyTurn()
     {
-        bool isDead = playerUnit.TakeDamage(enemyUnitDamage);
-        playerBattleInfo.UpdateHealth(playerUnit.curHealth, playerUnit.maxHealth);
+        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        playerBattleInfo.UpdateHealthText(playerUnit.curHealth, playerUnit.maxHealth);
 
         if (isDead)
         {
@@ -130,7 +104,7 @@ public class GameManager : MonoBehaviour
         else
         {
             state = BattleState.PLAYERTURN;
-            fightButtonText.text = "Attack " + enemyUnitName + " for " + playerDamage + " damage";
+            SetFightButtonText(playerUnit, enemyUnit);
         }
     }
 
@@ -146,27 +120,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool EnemyTakeDamage()
+    private int CalculateAttackDamage(Unit attackingUnit, Unit defendingUnit)
     {
-        if (enemyUnitName == "Wolf")
-        {
-            return enemyWolfUnit.TakeDamage(playerDamage);
-        }
-        else
-        {
-            return enemySkeletonUnit.TakeDamage(playerDamage);
-        }
+        return Mathf.RoundToInt(attackingUnit.damage * defendingUnit.damageTakenMultiplier);
     }
 
-    void UpdateEnemyHealth()
+    void UpdateEnemyHealthText()
     {
-        if (enemyUnitName == "Wolf")
-        {
-            enemyBattleInfo.UpdateHealth(enemyWolfUnit.curHealth, enemyWolfUnit.maxHealth);
-        }
-        else
-        {
-            enemyBattleInfo.UpdateHealth(enemySkeletonUnit.curHealth, enemySkeletonUnit.maxHealth);
-        }
+        enemyBattleInfo.UpdateHealthText(enemyUnit.curHealth, enemyUnit.maxHealth);
+    }
+
+    private void SetFightButtonText(Unit attackingUnit, Unit defendingUnit)
+    {
+        int damage = CalculateAttackDamage(attackingUnit, defendingUnit);
+        fightButtonText.text = "Attack " + defendingUnit.unitName + " for " + damage + " damge";
     }
 }

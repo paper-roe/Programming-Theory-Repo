@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [HideInInspector] public string unitName;
+    public string unitName;
+    public float damageTakenMultiplier;
     public int damage;
     public int maxHealth;
     public int curHealth;
